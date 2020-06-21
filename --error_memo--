@@ -1,0 +1,95 @@
+■0621) twitterクローン課題での指摘
+
+①ログインしていない状態でトップページにアクセスした場合、ログインページにリダイレクトしてください。
+>>toppageを削除してindex#tasksに飛ばす
+
+②この課題でMicropostは扱いません。
+>>micropostからtaskへ変更
+
+③ユーザーログイン後は、root（/）へ遷移し、ログインユーザーが登録したタスクを一覧表示してください。
+>>toppageを削除してindex#tasksに飛ばす
+
+④ログインユーザが 自分自身が登録したタスク のみを操作 (CRUD) できるように、タスクにユーザの紐付けをしてください。
+>>カリキュラムで確認　１対多
+
+⑤ルーティング情報に過不足が無いか確認しましょう。  
+>>ルーティング情報=Routerのもつ情報=routes.rbに記載の情報
+
+==twitterクローン課題にて作成したmodel / controller / migrationファイル(toppage,microposts)やDBテーブル(microposts)が不要だった。
+
+
+◎必要アクション
+1.以下項目の削除
+● modelファイルの削除
+	=rails destroy model toppage（ファイル名）
+	<完了>
+
+● controllerファイルの削除
+	=rails destroy controller toppages（ファイル名）
+	<完了>
+
+● migrationファイル
+	=rails db:rollbackの実行
+	>>ActiveRecord::UnknownMigrationVersionError: の発生
+	=rails db:migrate:status　でマイグレーション状況の確認
+	
+	database: tasklist_development
+	
+	 Status   Migration ID    Migration Name
+	--------------------------------------------------
+	   up     20200604093149  Create tasks
+	   up     20200608105117  Add status to tasks
+	   up     20200617133000  Create users
+	   up     20200618083125  ********** NO FILE **********
+	
+	=rails db:migrate:resetの実行　マイグレーションのリセット
+	
+	============================================
+	※注意点
+	当然、DBに入ってるデータは全て消えますので、実行環境に注意する必要がありますし
+	必要ならばデータをバックアップする必要があります。
+	
+	無駄にあがいた結果、チームメンバーの中で一人だけ
+	微妙にテーブル定義が異なる怪データベースが生成されてしまう可能性すらあります。
+	============================================
+	
+	
+	=rails db:migrate:status　でマイグレーションを状況の再度確認
+	>>マイグレーションのリセット完了(20200618083125_create toppageの削除)
+	s
+	database: tasklist_development
+	
+	 Status   Migration ID    Migration Name
+	--------------------------------------------------
+	   up     20200604093149  Create tasks
+	   up     20200608105117  Add status to tasks
+	   up     20200617133000  Create users
+	
+	<完了>
+
+
+
+●DBテーブル(tasklist_development/microposts)
+	=rails c　の実行
+	>ActiveRecord::Migration.drop_table(:microposts); でテーブル削除
+	<完了>
+
+
+
+2.routerの変更
+
+
+3.controllerの修正
+
+
+4.modelの修正
+
+
+5.viewの修正
+
+
+6.ユーザーの紐付け
+
+
+7.ルーティング情報（routes.rb）に不要項目が入っていないか確認。
+>>カリキュラムのrouteと比較する。

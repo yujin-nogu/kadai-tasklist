@@ -93,3 +93,46 @@
 
 7.ルーティング情報（routes.rb）に不要項目が入っていないか確認。
 >>カリキュラムのrouteと比較する。
+
+
+
+
+
+
+
+■rails cからテーブルに書き込みできない問題
+>>9.投稿機能__9.1 Model__rails console で投稿を作成
+
+ec2-user:~/environment/tasklist (master) $ rails c　＃ここで開始！
+Running via Spring preloader in process 12308
+Loading development environment (Rails 5.2.4.3)
+
+2.5.3 :001 > user = User.first    ＃定義式をいれる                                                    
+   (0.3ms)  SET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483
+  User Load (0.2ms)  SELECT  `users`.* FROM `users` ORDER BY `users`.`id` ASC LIMIT 1
+ => #<User id: 1, name: "taro", email: "taro@techacademy.jp", password_digest: "$2a$12$PkYGUM4LJpfMkXyS6ln3rOVPsIRhKKQmSqtolhOfRZ8...", created_at: "2020-06-21 05:58:13", updated_at: "2020-06-21 05:58:13"> 
+
+2.5.3 :002 > tasks.user    ＃失敗！nameerror==tasksメソッドがない                                                           
+Traceback (most recent call last):
+        1: from (irb):2
+NameError (undefined local variable or method `tasks' for main:Object)
+
+2.5.3 :003 > user.tasks	＃成功！                     
+  Task Load (0.2ms)  SELECT  `tasks`.* FROM `tasks` WHERE `tasks`.`user_id` = 1 LIMIT 11
+ => #<ActiveRecord::Associations::CollectionProxy []> 
+
+2.5.3 :004 > task = user.tasks.build(status:'started', content:'running') ＃項目入力できた！             
+ => #<Task id: nil, content: "running", created_at: nil, updated_at: nil, status: "started", user_id: 1> 
+
+2.5.3 :005 > task.save　＃保存
+   (0.1ms)  BEGIN
+  Task Create (0.5ms)  INSERT INTO `tasks` (`content`, `created_at`, `updated_at`, `status`, `user_id`) VALUES ('running', '2020-06-21 15:00:05', '2020-06-21 15:00:05', 'started', 1)
+   (10.6ms)  COMMIT
+ => true 
+
+2.5.3 :006 > 
+
+
+
+
+

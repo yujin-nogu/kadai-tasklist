@@ -136,3 +136,91 @@ NameError (undefined local variable or method `tasks' for main:Object)
 
 
 
+0624
+
+clone作って移動して
+ec2-user:~/environment (master) $ git clone https://github.com/yujin-nogu/kadai-tasklist.git tasklist-tutorial
+
+rails sで起動したい
+ec2-user:~/environment/tasklist-tutorial (master) $ rails s
+Could not find pg-1.2.3 in any of the sources
+Run `bundle install` to install missing gems.
+
+gemsがinstallされてないよー
+
+
+エラーメッセージに沿ってbundle install実行
+ec2-user:~/environment/tasklist-tutorial (master) $ bundle install
+Fetching pg 1.2.3
+Installing pg 1.2.3 with native extensions
+Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+
+
+
+ダメなのでエラーメッセージで検索
+
+https://qiita.com/Ushinji/items/dc79f12f03fabdb7a7a6
+ここに書いてある下に飛んで解決？
+https://stackoverflow.com/questions/43523389/cannot-install-mysql2-gem-for-rails-project
+
+ec2-user:~/environment/tasklist-tutorial (master) $ brew install openssl
+bash: brew: command not found
+
+↑brewはないよ
+
+ec2-user:~/environment/tasklist-tutorial (master) $ gem install mysql2 --source 'https://rubygems.org/' -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
+Building native extensions with: '--with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include'
+This could take a while...
+Successfully installed mysql2-0.5.3
+Parsing documentation for mysql2-0.5.3
+Done installing documentation for mysql2 after 0 seconds
+1 gem installed
+
+↑成功
+
+
+
+そもそもrbenvがinstallされていないようなので
+ec2-user:~/environment/tasklist-tutorial (master) $ rbenv exec gem install bundler
+bash: rbenv: command not found
+ec2-user:~/environment/tasklist-tutorial (master) $ which -a rbenv
+/usr/bin/which: no rbenv in (/home/ec2-user/.rvm/gems/ruby-2.5.3/bin:/home/ec2-user/.rvm/gems/ruby-2.5.3@global/bin:/home/ec2-user/.rvm/rubies/ruby-2.5.3/bin:/home/ec2-user/.rvm/bin:/home/ec2-user/.nvm/versions/node/v10.20.1/bin:/usr/local/bin:/bin:/usr/bin:/home/ec2-user/.local/bin:/home/ec2-user/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/aws/bin:/usr/local/bin:/home/ec2-user/.local/bin:/home/ec2-user/bin:/home/ec2-user/.local/bin:/home/ec2-user/bin:/opt/aws/bin:/usr/local/bin:/home/ec2-user/.local/bin:/home/ec2-user/bin:/home/ec2-user/.local/bin:/home/ec2-user/bin)
+
+
+/home/ec2-user/.rvm/gems/ruby-2.5.3/bin:
+/home/ec2-user/.rvm/gems/ruby-2.5.3@global/bin:
+/home/ec2-user/.rvm/rubies/ruby-2.5.3/bin:
+/home/ec2-user/.rvm/bin:
+/home/ec2-user/.nvm/versions/node/v10.20.1/bin:
+/usr/local/bin:
+/bin:/usr/bin:
+/home/ec2-user/.local/bin:
+/home/ec2-user/bin:
+/usr/local/sbin:/usr/sbin:
+/sbin:/opt/aws/bin:
+/usr/local/bin:
+/home/ec2-user/.local/bin:
+/home/ec2-user/bin:
+/home/ec2-user/.local/bin:
+/home/ec2-user/bin:
+/opt/aws/bin:
+/usr/local/bin:/home/ec2-user/.local/bin:
+/home/ec2-user/bin:
+/home/ec2-user/.local/bin:
+/home/ec2-user/bin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
